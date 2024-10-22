@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   extends: ['next/core-web-vitals', 'plugin:prettier/recommended', 'plugin:mdx/recommended'],
   plugins: ['unused-imports', 'simple-import-sort'],
   rules: {
