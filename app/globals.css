@@ -1,27 +1,122 @@
+@import '../styles/intellij-prism.css';
+@import '../styles/prose.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* -- colors --- */
+@layer base {
+  :root {
+    --gray-50: #ffffff;
+    --gray-75: #fdfdfd;
+    --gray-100: #f8f8f8;
+    --gray-200: #e6e6e6;
+    --gray-300: #d5d5d5;
+    --gray-400: #b1b1b1;
+    --gray-500: #909090;
+    --gray-600: #6d6d6d;
+    --gray-650: #5a5a5a;
+    --gray-700: #464646;
+    --gray-800: #222222;
+    --gray-900: #000000;
+    --gray-950: #000000;
+
+    --selection: hsla(0, 0%, 0%, 0.045);
+    --border: hsla(0, 0%, 0%, 0.09);
+    --spinner-color: rgba(0, 0, 0, 65);
+
+    --page-background: var(--gray-50);
+
+    --heading: var(--gray-900);
+    --text-body: var(--gray-800);
+    --text-second: var(--gray-650);
+    --text-disabled: var(--gray-500);
+  }
+
+  .dark {
+    --gray-50: #000;
+    --gray-75: #141414;
+    --gray-100: #1d1d1d;
+    --gray-200: #303030;
+    --gray-300: #4b4b4b;
+    --gray-400: #6a6a6a;
+    --gray-500: #8d8d8d;
+    --gray-600: #b0b0b0;
+    --gray-700: #d0d0d0;
+    --gray-800: #ebebeb;
+    --gray-900: #fff;
+    --gray-950: #fff;
+
+    --selection: hsla(0, 0%, 100%, 0.077);
+    --border: hsla(0, 0%, 100%, 0.1);
+    --spinner-color: rgba(255, 255, 255, 65);
+
+    --page-background: var(--gray-75);
+
+    --heading: var(--gray-900);
+    --text-body: var(--gray-800);
+    --text-second: var(--gray-600);
+    --text-disabled: var(--gray-500);
+  }
 }
 
-@media (prefers-color-scheme: dark) {
+/* -- variable --- */
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --lg: 1024px;
+    --md: 768px;
+    --sm: 640px;
+
+    --page-top: 128px;
+    --page-width: 1072px;
+    --content-width: 640px;
+    --body-margin-left: max(24px, env(safe-area-inset-left));
+    --body-margin-right: max(24px, env(safe-area-inset-right));
+
+    /* --font-base: calc(1rem + 0.25vw); */
+    /* font-size: var(--font-base); */
   }
+
+  @media (max-width: var(--lg)) {
+    :root {
+      --page-top: 128px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    :root {
+      --page-top: 96px;
+      --body-margin-left: max(16px, env(safe-area-inset-left));
+      --body-margin-right: max(16px, env(safe-area-inset-right));
+    }
+  }
+}
+
+html,
+body,
+#__next {
+  min-height: 100%;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-second);
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--content-width);
+  padding-top: var(--page-top);
+  padding-bottom: var(--page-top);
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+* {
+  /* MW touch highlight 제거 */
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+::selection {
+  @apply bg-neutral-400/30;
+}
+
+.dark ::selection {
+  @apply bg-neutral-500/30;
 }
