@@ -1,6 +1,7 @@
 .prose {
   width: 100%;
   max-width: max-content;
+  font-family: var(--font-mono);
   color: var(--text-second) !important;
   font-size: 1rem;
   font-weight: 350;

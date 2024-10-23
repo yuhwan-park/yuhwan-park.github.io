@@ -73,9 +73,6 @@
     --content-width: 640px;
     --body-margin-left: max(24px, env(safe-area-inset-left));
     --body-margin-right: max(24px, env(safe-area-inset-right));
-
-    /* --font-base: calc(1rem + 0.25vw); */
-    /* font-size: var(--font-base); */
   }
 
   @media (max-width: var(--lg)) {
@@ -100,6 +97,7 @@ body,
 }
 
 body {
+  font-family: var(--font-sans);
   color: var(--text-second);
   margin-left: auto;
   margin-right: auto;
