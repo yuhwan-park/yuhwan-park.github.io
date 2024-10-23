@@ -44,11 +44,15 @@ export default function Home() {
         </li>
       </ul>
       <div data-animate className="mb-8 flex gap-0.5">
-        <a className="selection" href="mailto:apkdkvkz@gmail.com" aria-label="email">
+        <a
+          className="rounded p-1 transition-colors hover:bg-[rgba(0,0,0,0.05)]"
+          href="mailto:apkdkvkz@gmail.com"
+          aria-label="email"
+        >
           <EmailIcon />
         </a>
         <a
-          className="selection"
+          className="rounded p-1 transition-colors hover:bg-[rgba(0,0,0,0.05)]"
           href="https://github.com/yuhwan-park"
           target="_blank"
           rel="noopener noreferrer"
