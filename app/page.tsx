@@ -19,18 +19,6 @@ export default function Home() {
       </div>
       <ul className="mb-1 flex flex-col gap-1 text-xs">
         <li data-animate className="flex items-center">
-          <Image width="12" height="12" className="mr-1" src={'/colavo.png'} alt="colavo" />
-          <a
-            className="link pr-1"
-            href="https://colavo.kr/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            콜라보그라운드
-          </a>
-          <div className="w-[120] text-[10px]">22. 09 ~ 24.04</div>
-        </li>
-        <li data-animate className="flex items-center">
           <Image width="12" height="12" className="mr-1" src={'/viva.png'} alt="viva" />
           <a
             className="link pr-1"
@@ -41,6 +29,18 @@ export default function Home() {
             비바이노베이션
           </a>
           <div className="w-[120] text-[10px]">24. 10 ~ </div>
+        </li>
+        <li data-animate className="flex items-center">
+          <Image width="12" height="12" className="mr-1" src={'/colavo.png'} alt="colavo" />
+          <a
+            className="link pr-1"
+            href="https://colavo.kr/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            콜라보그라운드
+          </a>
+          <div className="w-[120] text-[10px]">22. 09 ~ 24.04</div>
         </li>
       </ul>
       <div data-animate className="mb-8 flex gap-0.5">
