@@ -2,7 +2,7 @@
 import React, { useRef, useState } from 'react';
 
 import { $ } from '@/libs/core';
-import CheckIcon from './icons/CheckIcon';
+import { CheckIcon } from './icons';
 import useWatchTimeout from '@/libs/useWatchTimeout';
 
 export default function Code({ children, title }: React.ComponentProps<'pre'>) {
@@ -34,7 +34,7 @@ export default function Code({ children, title }: React.ComponentProps<'pre'>) {
           <div className="flex-none border-b-4 border-[#bbbbbb] px-5 pb-1.5 pt-2 text-sm font-bold text-[#bbbbbb]">
             {title}
           </div>
-          <div className="ring-white/5 mt-2 w-full rounded-tl bg-[var(--prism-selection)] ring-1 ring-inset" />
+          <div className="mt-2 w-full rounded-tl bg-[var(--prism-selection)] ring-1 ring-inset ring-white/5" />
         </div>
       )}
       <pre ref={ref} className={'m-0 rounded-none p-5 leading-4'}>
@@ -43,7 +43,7 @@ export default function Code({ children, title }: React.ComponentProps<'pre'>) {
       <button
         className={$(
           'absolute bottom-2 right-2 flex h-8 w-8 items-center justify-center rounded-lg',
-          'bg-neutral-700 text-neutral-400 hover:text-neutral-300 text-xs',
+          'bg-neutral-700 text-xs text-neutral-400 hover:text-neutral-300',
           'opacity-0 transition-all group-hover:opacity-100',
         )}
         aria-label="copy-button"

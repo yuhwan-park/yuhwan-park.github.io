@@ -4,10 +4,9 @@ import { useMDXComponent } from 'next-contentlayer/hooks';
 import { notFound } from 'next/navigation';
 
 export async function generateStaticParams() {
-  const d = allBlogPosts.map((post) => ({
+  return allBlogPosts.map((post) => ({
     slug: post.slug.slice(1),
   }));
-  return d;
 }
 
 interface PostPageProps {
