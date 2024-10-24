@@ -1,4 +1,3 @@
-'use client';
 import { parseDateString } from '@/libs/date';
 import { ReducedPost } from '@/libs/types';
 
