@@ -1,6 +1,8 @@
 import Code from '@/components/Code';
+import { HomeIcon } from '@/components/icons';
 import { allBlogPosts } from '@/libs/post';
 import { useMDXComponent } from 'next-contentlayer/hooks';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 export async function generateStaticParams() {
@@ -28,19 +30,25 @@ export default function PostPage({ params }: PostPageProps) {
   const MDXContent = useMDXComponent(post.body.code);
 
   return (
-    <div>
-      <h1>{post.title}</h1>
-      <p>{post.description}</p>
-      <div>작성일: {new Date(post.date).toLocaleDateString()}</div>
-      <div className="">
-        태그:{' '}
-        {post.tags.map((tag, index) => (
-          <span key={index}>{tag} </span>
-        ))}
+    <>
+      <div data-animate data-animate-slow>
+        <h1 className="pb-1 text-lg font-extrabold">{post.title}</h1>
+        <div className="text-sm">
+          {new Date(post.date).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          })}
+        </div>
+        <div className="mb-10 block w-fit rounded p-1 transition-colors hover:bg-[rgba(0,0,0,0.05)]">
+          <Link href={'/'}>
+            <HomeIcon width={18} height={18} />
+          </Link>
+        </div>
       </div>
-      <div className="prose prose-neutral">
+      <div data-animate data-animate-slow className="prose prose-neutral">
         <MDXContent components={mdxComponents} />
       </div>
-    </div>
+    </>
   );
 }
