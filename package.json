@@ -2,7 +2,6 @@
   "name": "blog",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "next build && next dev --turbo",
     "build": "next build",
@@ -23,7 +22,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "contentlayer": "^0.3.4",
-    "eslint": "^8",
+    "eslint": "^8.26.0",
     "eslint-config-next": "14.2.15",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-mdx": "^3.1.5",

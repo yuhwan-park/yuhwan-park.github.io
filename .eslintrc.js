@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   extends: ['next/core-web-vitals', 'plugin:prettier/recommended', 'plugin:mdx/recommended'],
   plugins: ['unused-imports', 'simple-import-sort'],
   rules: {
@@ -29,6 +29,7 @@ export default {
             groups: [['^\\u0000'], ['^@?\\w'], ['^~/'], ['^\\.']],
           },
         ],
+        'prettier/prettier': 'off',
       },
       parserOptions: {
         tsconfigRootDir: __dirname,
