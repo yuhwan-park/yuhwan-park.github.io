@@ -1,8 +1,9 @@
 'use client';
 import React, { useRef, useState } from 'react';
 
-import { $ } from '@/libs/core';
 import { CheckIcon } from './icons';
+
+import { $ } from '@/libs/core';
 import useWatchTimeout from '@/libs/useWatchTimeout';
 
 export default function Code({ children, title }: React.ComponentProps<'pre'>) {

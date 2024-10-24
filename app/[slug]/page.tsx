@@ -1,9 +1,10 @@
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { useMDXComponent } from 'next-contentlayer/hooks';
+
 import Code from '@/components/Code';
 import { HomeIcon } from '@/components/icons';
 import { allBlogPosts } from '@/libs/post';
-import { useMDXComponent } from 'next-contentlayer/hooks';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
 
 export async function generateStaticParams() {
   return allBlogPosts.map((post) => ({

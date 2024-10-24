@@ -1,7 +1,8 @@
+import Image from 'next/image';
+
 import { EmailIcon, GithubIcon } from '@/components/icons';
 import PostList from '@/components/PostList';
 import { reducedAllBlogPosts } from '@/libs/post';
-import Image from 'next/image';
 
 export default function Home() {
   const posts = reducedAllBlogPosts;
