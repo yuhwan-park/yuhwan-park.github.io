@@ -29,9 +29,6 @@ module.exports = {
       typography: (theme) => ({
         DEFAULT: {
           css: {
-            'h2,h3,h4': {
-              'scroll-margin-top': 'var(--scroll-mt)',
-            },
             'hr, thead, tbody tr': { borderColor: theme('colors.neutral.300') },
             'blockquote p:first-of-type::before': false,
             'blockquote p:last-of-type::after': false,
@@ -45,7 +42,7 @@ module.exports = {
   },
   plugins: [
     typography,
-    ({ addComponents, addUtilities }) => {
+    ({ addUtilities }) => {
       addUtilities(
         {
           '.no-scrollbar': {
