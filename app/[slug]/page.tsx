@@ -34,6 +34,7 @@ export default function PostPage({ params }: PostPageProps) {
 
   return (
     <main>
+      <div className="blur-layer" aria-hidden />
       <TableOfContent data-animate className="px-2 text-sm" toc={toc} />
       <div data-animate data-animate-slow>
         <h1 className="pb-1 text-lg font-extrabold">{post.title}</h1>
