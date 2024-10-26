@@ -4,7 +4,8 @@ import { useMDXComponent } from 'next-contentlayer/hooks';
 
 import Code from '@/components/Code';
 import { HomeIcon } from '@/components/icons';
-import { allBlogPosts } from '@/libs/post';
+import TableOfContent from '@/components/TableOfContent';
+import { allBlogPosts, parseToc } from '@/libs/post';
 
 export async function generateStaticParams() {
   return allBlogPosts.map((post) => ({
@@ -28,10 +29,12 @@ export default function PostPage({ params }: PostPageProps) {
   if (!post) {
     notFound();
   }
+  const toc = parseToc(post.body.raw);
   const MDXContent = useMDXComponent(post.body.code);
 
   return (
-    <>
+    <main>
+      <TableOfContent data-animate className="px-2 text-sm" toc={toc} />
       <div data-animate data-animate-slow>
         <h1 className="pb-1 text-lg font-extrabold">{post.title}</h1>
         <div className="text-sm">
@@ -50,6 +53,6 @@ export default function PostPage({ params }: PostPageProps) {
       <div data-animate data-animate-slow className="prose prose-neutral">
         <MDXContent components={mdxComponents} />
       </div>
-    </>
+    </main>
   );
 }
