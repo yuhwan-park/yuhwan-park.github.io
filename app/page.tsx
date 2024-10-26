@@ -7,11 +7,11 @@ import { reducedAllBlogPosts } from '@/libs/post';
 export default function Home() {
   const posts = reducedAllBlogPosts;
   return (
-    <main>
-      <div data-animate className="mb-8">
+    <main data-animate>
+      <div className="mb-8">
         <b>박유환</b>
       </div>
-      <div data-animate className="mb-8">
+      <div className="mb-8">
         <p>
           안녕하세요. <span className="font-extrabold">UX</span>와{' '}
           <span className="font-extrabold">DX</span> 두 마리 토끼를 다 잡고 싶은 만 2년차 프론트엔드
@@ -19,7 +19,7 @@ export default function Home() {
         </p>
       </div>
       <ul className="mb-1 flex flex-col gap-1 text-xs">
-        <li data-animate className="flex items-center">
+        <li className="flex items-center">
           <Image width="12" height="12" className="mr-1" src={'/viva.png'} alt="viva" />
           <a
             className="link pr-1"
@@ -31,7 +31,7 @@ export default function Home() {
           </a>
           <div className="w-[120] text-[10px]">24. 10 ~ </div>
         </li>
-        <li data-animate className="flex items-center">
+        <li className="flex items-center">
           <Image width="12" height="12" className="mr-1" src={'/colavo.png'} alt="colavo" />
           <a
             className="link pr-1"
@@ -44,7 +44,7 @@ export default function Home() {
           <div className="w-[120] text-[10px]">22. 09 ~ 24.04</div>
         </li>
       </ul>
-      <div data-animate className="mb-8 flex gap-0.5">
+      <div className="mb-8 flex gap-0.5">
         <a
           className="rounded p-1 transition-colors hover:bg-[rgba(0,0,0,0.05)]"
           href="mailto:apkdkvkz@gmail.com"

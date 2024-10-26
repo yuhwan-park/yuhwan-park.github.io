@@ -36,7 +36,7 @@ export default function PostPage({ params }: PostPageProps) {
     <main>
       <div className="blur-layer" aria-hidden />
       <TableOfContent data-animate className="px-2 text-sm" toc={toc} />
-      <div data-animate data-animate-slow>
+      <div data-animate>
         <h1 className="pb-1 text-lg font-extrabold">{post.title}</h1>
         <div className="text-sm">
           {new Date(post.date).toLocaleDateString('en-US', {
@@ -51,7 +51,7 @@ export default function PostPage({ params }: PostPageProps) {
           </Link>
         </div>
       </div>
-      <div data-animate data-animate-slow className="prose prose-neutral">
+      <div data-animate className="prose prose-neutral">
         <MDXContent components={mdxComponents} />
       </div>
     </main>

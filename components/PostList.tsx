@@ -16,7 +16,7 @@ export default function PostList({ posts }: { posts: ReducedPost[] }) {
   return (
     <div data-animate>
       <div className="pb-3 text-lg font-extrabold">Posts ({posts.length})</div>
-      <div className="group">
+      <div data-animate className="group">
         {Object.keys(postsByYear)
           .sort((a, b) => +b - +a)
           .map((year) => (
@@ -26,7 +26,7 @@ export default function PostList({ posts }: { posts: ReducedPost[] }) {
                   {year}
                 </div>
               </div>
-              <ul className="flex flex-col py-4">
+              <ul data-animate className="flex flex-col py-4">
                 {postsByYear[year].map((post) => (
                   <li key={post.slug} className="group/item text-gray-800">
                     <a

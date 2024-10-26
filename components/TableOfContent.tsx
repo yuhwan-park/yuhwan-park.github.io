@@ -40,7 +40,7 @@ const TOCItem = ({
       </a>
     </li>
     {section.subSections.length > 0 && (
-      <ul className="mt-1.5 space-y-1.5">
+      <ul className="space-y-2.5">
         {section.subSections.map((subSection, j) => (
           <TOCItem
             key={j}
