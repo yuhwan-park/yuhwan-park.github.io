@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { useMDXComponent } from 'next-contentlayer/hooks';
@@ -7,15 +8,43 @@ import { HomeIcon } from '@/components/icons';
 import TableOfContent from '@/components/TableOfContent';
 import { allBlogPosts, parseToc } from '@/libs/post';
 
+interface PostPageProps {
+  params: {
+    slug: string;
+  };
+}
+
 export async function generateStaticParams() {
   return allBlogPosts.map((post) => ({
     slug: post.slug.slice(1),
   }));
 }
 
-interface PostPageProps {
-  params: {
-    slug: string;
+export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
+  const post = allBlogPosts.find((post) => post.slug === `/${params.slug}`);
+
+  if (!post) return {};
+
+  return {
+    title: `${post.title} | yuhwan park's blog`,
+    description: post.title,
+    alternates: {
+      canonical: `https://yuhwan-park.github.io${post.slug}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+    authors: [{ name: 'yuhwan park', url: 'https://github.com/yuhwan-park' }],
+    openGraph: {
+      type: 'article',
+      publishedTime: new Date(post.date).toISOString(),
+      modifiedTime: new Date(post.date).toISOString(),
+      authors: ['yuhwan park'],
+      title: `yuhwan park's blog`,
+      url: `https://yuhwan-park.github.io${post.slug}`,
+      description: post.title,
+    },
   };
 }
 

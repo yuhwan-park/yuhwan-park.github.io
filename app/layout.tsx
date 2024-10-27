@@ -18,6 +18,18 @@ const pretendard = localFont({
 });
 
 export const metadata: Metadata = {
+  title: `yuhwan park's blog`,
+  description: `yuhwan park's blog`,
+  robots: {
+    index: true,
+    follow: true,
+  },
+  authors: [{ name: 'yuhwan park', url: 'https://github.com/yuhwan-park' }],
+  openGraph: {
+    title: `yuhwan park's blog`,
+    url: 'https://yuhwan-park.github.io/',
+    description: `yuhwan park's blog`,
+  },
   other: {
     ['google-site-verification']: '1tOVlPGznTkcAVpMjZVMHwrVgJrkxd9IPKcfLHd0LWc',
   },
@@ -29,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className={`${nanum.variable} ${pretendard.variable}`}>
+    <html lang="ko" className={`${nanum.variable} ${pretendard.variable}`}>
       <body>{children}</body>
     </html>
   );
