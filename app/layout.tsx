@@ -42,7 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${nanum.variable} ${pretendard.variable}`}>
-      <body>{children}</body>
+      <body className="px-4 transition-all md:px-0">{children}</body>
     </html>
   );
 }

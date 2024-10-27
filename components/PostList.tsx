@@ -30,11 +30,13 @@ export default function PostList({ posts }: { posts: ReducedPost[] }) {
                 {postsByYear[year].map((post) => (
                   <li key={post.slug} className="group/item text-gray-800">
                     <a
-                      className="flex w-full items-center justify-between transition-opacity hover:!opacity-100 group-hover:opacity-40"
+                      className="flex w-full items-center justify-between gap-5 transition-opacity hover:!opacity-100 group-hover:opacity-40"
                       href={post.slug}
                     >
                       <div className="group-hover/item:selection p-0.5">{post.title}</div>
-                      <div className="group-hover/item:selection p-0.5 text-sm">{post.date}</div>
+                      <div className="group-hover/item:selection text-nowrap p-0.5 text-sm">
+                        {post.date}
+                      </div>
                     </a>
                   </li>
                 ))}
