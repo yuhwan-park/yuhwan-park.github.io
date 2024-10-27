@@ -1,5 +1,6 @@
 import './globals.css';
 
+import { Metadata } from 'next';
 import { Nanum_Myeongjo } from 'next/font/google';
 import localFont from 'next/font/local';
 
@@ -15,6 +16,12 @@ const pretendard = localFont({
   src: './fonts/PretendardVariable.woff2',
   variable: '--font-mono',
 });
+
+export const metadata: Metadata = {
+  other: {
+    ['google-site-verification']: '1tOVlPGznTkcAVpMjZVMHwrVgJrkxd9IPKcfLHd0LWc',
+  },
+};
 
 export default function RootLayout({
   children,
