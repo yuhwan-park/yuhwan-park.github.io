@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+
+Host: https://yuhwan-park.github.io/
+Sitemap: https://yuhwan-park.github.io/sitemap.xml
