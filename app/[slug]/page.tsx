@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 
 import Code from '@/components/Code';
+import Giscus from '@/components/Giscus';
 import { HomeIcon } from '@/components/icons';
 import TableOfContent from '@/components/TableOfContent';
 import { allBlogPosts, parseToc } from '@/libs/post';
@@ -83,6 +84,7 @@ export default function PostPage({ params }: PostPageProps) {
       <div data-animate className="prose prose-neutral">
         <MDXContent components={mdxComponents} />
       </div>
+      <Giscus />
     </main>
   );
 }
