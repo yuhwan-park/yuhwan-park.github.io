@@ -67,12 +67,12 @@ export default function TableOfContent({
   return (
     <aside
       className={$(
-        'fixed top-[var(--page-top)] flex max-w-[220px] -translate-x-[230px] translate-y-[140px] flex-col',
+        'fixed top-[var(--page-top)] flex max-w-[220px] -translate-x-[230px] translate-y-[140px] flex-col font-mono',
         'duration-750 transition-opacity lg:block lg:opacity-100',
         'md:hidden md:opacity-0',
       )}
     >
-      <ul {...props} className={$('space-y-2.5 font-sans text-sm', className)}>
+      <ul {...props} className={$('space-y-2.5 text-sm', className)}>
         {toc.map((section, i) => (
           <TOCItem key={i} section={section} currentSectionSlug={currentSectionSlug} />
         ))}

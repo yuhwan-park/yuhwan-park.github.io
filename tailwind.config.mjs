@@ -1,10 +1,15 @@
 import typography from '@tailwindcss/typography';
+import { fontFamily } from 'tailwindcss/defaultTheme';
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./app/**/*.tsx', './components/**/*.tsx'],
   darkMode: 'class',
   theme: {
+    fontFamily: {
+      sans: ['var(--font-sans)', ...fontFamily.sans],
+      mono: ['var(--font-mono)', ...fontFamily.mono],
+    },
     extend: {
       colors: {
         neutral: {
