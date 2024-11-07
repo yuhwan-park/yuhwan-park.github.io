@@ -7,6 +7,7 @@ import Code from '@/components/Code';
 import Giscus from '@/components/Giscus';
 import { HomeIcon } from '@/components/icons';
 import TableOfContent from '@/components/TableOfContent';
+import ZoomableImage from '@/components/ZoomableImage';
 import { allBlogPosts, parseToc } from '@/libs/post';
 
 interface PostPageProps {
@@ -42,7 +43,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
       publishedTime: new Date(post.date).toISOString(),
       modifiedTime: new Date(post.date).toISOString(),
       authors: ['yuhwan park'],
-      title: `yuhwan park's blog`,
+      title: post.title,
       url: `https://yuhwan-park.github.io${post.slug}`,
       description: post.title,
     },
@@ -51,6 +52,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
 
 const mdxComponents = {
   pre: Code,
+  img: ZoomableImage,
 };
 
 export default function PostPage({ params }: PostPageProps) {

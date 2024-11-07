@@ -152,6 +152,16 @@ body {
   @apply bg-neutral-500/30;
 }
 
+.medium-zoom-overlay {
+  background-color: transparent !important;
+  backdrop-filter: blur(10px) !important;
+  transition: all 0.3s ease-in-out !important;
+}
+
+.medium-zoom-image {
+  border-radius: 12px;
+}
+
 /* animate intro stage */
 @media (prefers-reduced-motion: no-preference) {
   @keyframes intro-stage {
