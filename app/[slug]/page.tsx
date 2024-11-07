@@ -8,7 +8,8 @@ import Giscus from '@/components/Giscus';
 import { HomeIcon } from '@/components/icons';
 import TableOfContent from '@/components/TableOfContent';
 import ZoomableImage from '@/components/ZoomableImage';
-import { allBlogPosts, parseToc } from '@/libs/post';
+import { allBlogPosts, contentToDescription, parseToc } from '@/libs/post';
+import { getPostJsonLD } from '@/libs/seo';
 
 interface PostPageProps {
   params: {
@@ -26,10 +27,10 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   const post = allBlogPosts.find((post) => post.slug === `/${params.slug}`);
 
   if (!post) return {};
-
+  const description = contentToDescription(post.body.raw);
   return {
     title: `${post.title} | yuhwan park's blog`,
-    description: post.title,
+    description,
     alternates: {
       canonical: `https://yuhwan-park.github.io${post.slug}`,
     },
@@ -45,7 +46,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
       authors: ['yuhwan park'],
       title: post.title,
       url: `https://yuhwan-park.github.io${post.slug}`,
-      description: post.title,
+      description,
     },
   };
 }
@@ -66,6 +67,10 @@ export default function PostPage({ params }: PostPageProps) {
 
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(getPostJsonLD(post)) }}
+      />
       <div className="blur-layer" aria-hidden />
       <TableOfContent data-animate className="px-2 text-sm" toc={toc} />
       <div data-animate>

@@ -3,11 +3,16 @@ import Image from 'next/image';
 import { EmailIcon, GithubIcon } from '@/components/icons';
 import PostList from '@/components/PostList';
 import { reducedAllBlogPosts } from '@/libs/post';
+import { getHomeJsonLD } from '@/libs/seo';
 
 export default function Home() {
   const posts = reducedAllBlogPosts;
   return (
     <main data-animate>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(getHomeJsonLD()) }}
+      />
       <div className="mb-8">
         <b>박유환</b>
       </div>

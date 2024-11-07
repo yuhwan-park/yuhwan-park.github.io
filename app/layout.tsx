@@ -19,7 +19,7 @@ const pretendard = localFont({
 
 export const metadata: Metadata = {
   title: `yuhwan park's blog`,
-  description: `yuhwan park's blog`,
+  description: `안녕하세요. UX와 DX 두 마리 토끼를 다 잡고 싶은 만 2년차 프론트엔드 개발자입니다.`,
   robots: {
     index: true,
     follow: true,
@@ -28,7 +28,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: `yuhwan park's blog`,
     url: 'https://yuhwan-park.github.io/',
-    description: `yuhwan park's blog`,
+    siteName: `yuhwan park's blog`,
+    description: `안녕하세요. UX와 DX 두 마리 토끼를 다 잡고 싶은 만 2년차 프론트엔드 개발자입니다.`,
   },
   other: {
     ['google-site-verification']: '1tOVlPGznTkcAVpMjZVMHwrVgJrkxd9IPKcfLHd0LWc',
