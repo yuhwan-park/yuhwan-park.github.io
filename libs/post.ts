@@ -5,7 +5,7 @@ import { Post, ReducedPost } from './types';
 const reducePost = ({ body: _, _raw, _id, ...post }: Post): ReducedPost => post;
 
 export const allBlogPosts: Post[] = allPosts
-  .filter((post) => !post.draft)
+  .filter((post) => !post.draft || process.env.NODE_ENV === 'development')
   .map((post) => ({
     ...post,
   }))
@@ -41,23 +41,32 @@ export const parseToc = (source: string) => {
   return source
     .split('\n')
     .filter((line) => line.match(/(^#{1,3})\s/))
-    .reduce<TOCSection[]>((acc, rawHeading) => {
-      const level = rawHeading.split('#').length - 1;
-      const section = createSection(rawHeading);
+    .reduce<TOCSection[]>(
+      (acc, rawHeading) => {
+        const level = rawHeading.split('#').length - 1;
+        const section = createSection(rawHeading);
 
-      if (level === 1) {
-        acc.push(section);
-      } else if (level === 2 && acc.length > 0) {
-        acc[acc.length - 1].subSections.push(section);
-      } else if (level === 3 && acc.length > 0) {
-        const lastH1 = acc[acc.length - 1];
-        if (lastH1.subSections.length > 0) {
-          lastH1.subSections[lastH1.subSections.length - 1].subSections.push(section);
+        if (level === 1) {
+          acc.push(section);
+        } else if (level === 2 && acc.length > 0) {
+          acc[acc.length - 1].subSections.push(section);
+        } else if (level === 3 && acc.length > 0) {
+          const lastH1 = acc[acc.length - 1];
+          if (lastH1.subSections.length > 0) {
+            lastH1.subSections[lastH1.subSections.length - 1].subSections.push(section);
+          }
         }
-      }
 
-      return acc;
-    }, []);
+        return acc;
+      },
+      [
+        {
+          slug: '',
+          text: '',
+          subSections: [],
+        },
+      ],
+    );
 };
 
 export const contentToDescription = (content: string) => {
