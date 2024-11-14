@@ -1,0 +1,167 @@
+---
+title: '[웹 최적화] 성능 최적화 편'
+date: 2024-11-14 17:19:00
+draft: true
+---
+
+웹 프론트엔드 개발에서 **사용자 경험**을 향상시킬 수 있는 방법은 매우 다양합니다.
+
+예를 들어, 렌더링과 네트워크 요청을 최적화하거나 정적 리소스 파일의 크기를 줄이는 등 **성능** 측면에서의 개선이 가능합니다. 또한 웹 사용에 어려움이 있는 분들을 위한 **웹 접근성** 개선, 로딩 시간이 길게 느껴지지 않도록 UI/UX를 개선하는 방법, 그리고 **SEO**(검색 엔진 최적화)를 개선하여 검색엔진에서 사이트의 세부 페이지가 어떤 식으로 구성되어있는지 정보를 제공하는 등 모두 사용자 경험을 높이는 중요한 요소입니다.
+
+성능 최적화 방법은 무수히 많지만, 제가 실무에서 경험해본 바로는 `최소한의 노력으로 최대의 성능 개선`을 이끌어낼 수 있는 몇 가지 핵심적인 방법들이 있습니다.
+
+이 글에서는 이러한 방법들을 중심으로 설명하도록 하겠습니다.
+
+# 코드 스플리팅
+
+웹 애플리케이션이 복잡해지고 규모가 커질수록 정적 번들 파일의 크기도 함께 증가하게 됩니다.
+
+웹 브라우저는 대부분 **단일 스레드**이므로 모든 무거운 작업이 메인 스레드에서 수행됩니다. 즉, 웹 브라우저는 구문 분석, 레이아웃 및 페인트가 이루어지는 스레드인 메인 스레드에서 JavaScript 코드를 실행합니다. 특히 많은 기능을 제공하는 대규모 애플리케이션의 경우, 사용자가 페이지와 상호 작용하기 전에 메인 스레드가 코드를 평가하는 데 바쁩니다. 처음부터 해당 번들에 포함된 모든 기능이 필요하지 않더라도 기다려야 하는 셈이죠.
+
+`Code Splitting`은 이러한 문제를 해결하기 위한 효과적인 방법입니다. 전체 코드를 여러 개의 작은 번들로 나누어, 필요한 시점에 필요한 코드만 로드함으로써 초기 로딩 성능을 개선할 수 있습니다.
+
+## 1. Dynamic Import
+
+`Dynamic Import`는 코드 스플리팅을 적용하기 위한 가장 보편적인 방법입니다.
+
+유저가 업로드한 엑셀을 파싱하여 테이블을 그려주는 페이지를 개발하고 있다고 생각해봅시다.
+엑셀 파일의 컨텐츠를 쉽게 파싱할 수 있도록 도와주는 [`xlsx`](https://www.npmjs.com/package/xlsx)라는 유명한 라이브러리를 사용해보죠.
+
+```js
+import * as xlsx from 'xlsx';
+
+const parseExcel = (data) => {
+  const workbook = xlsx.read(data, read_opts);
+  // ...
+};
+
+const input = document.querySelector('input');
+
+input.addEventListener('change', (e) => {
+  parseExcel(e.target.files[0]);
+});
+```
+
+짜잔 완성했습니다. 이제 PR을 올리고 일을 끝마치면 되겠군요.
+하지만 `xlsx` 는 무겁기로 소문난 라이브러리 중 하나입니다. 서드파티 라이브러리의 용량을 확인할 수 있는 [Bundle phobia](https://bundlephobia.com/package/xlsx@0.18.5)에서 확인해보면 압축되어도 **135.6kB**나 되는 걸 볼 수 있습니다. 따로 코드 스플리팅 처리를 하지 않았다면 그대로 메인 JS 파일에 큰 용량이 포함될 겁니다.
+
+```js
+const parseExcel = async (data) => {
+  const xlsx = await import('xlsx');
+  const workbook = xlsx.read(data, read_opts);
+  // ...
+};
+```
+
+이번에는 모듈을 동적으로 가져옵니다.
+
+모듈 번들러는 동적 Import를 감지하면 모듈을 **별도의 번들로 번들링**합니다. 또한 나중에 별도의 HTTP 요청을 통해 해당 번들을 비동기적으로 로드하는 데 필요한 코드를 생성합니다.
+
+다만 작은 문제가 있습니다. `xlsx` 모듈 번들은 사용자가 엑셀 파일을 업로드했을 때 다운로드 되므로 번들이 다운로드되는 동안 사용자에게 약간의 지연이 발생할 수 있습니다. 로딩 처리를 하여 이 문제를 해결해도 되겠지만 모듈 번들러를 이용하여 해당 페이지에 접속했을 때 미리 번들을 다운로드 받을 수 있도록 구성할 수 있습니다.
+
+```js
+const parseExcel = async (data) => {
+  const xlsx = await import(/* webpackPrefetch: true */ 'xlsx');
+  const workbook = xlsx.read(data, read_opts);
+  // ...
+};
+```
+
+![dev-tool-image](/images/web-performance-optimization/prefetch.png)
+`Webpack` 을 사용한다면 동적 Import 구문에 힌트 지시문을 제공할 수 있습니다. 위 힌트에 따라 Webpack은 해당 모듈을 사용하는 페이지의 `index.html` 에 모듈을 prefetch 하는 `link`태그를 주입합니다.
+
+```html
+<link rel="modulepreload" crossorigin href="/assets/main.3949e347.js" />
+```
+
+`Rollup`을 사용한다면 기본 동작으로 동적 Import가 사용되는 페이지의 index.html에 모듈을 preload하는 `link` 태그가 주입됩니다.
+
+하지만 이럼에도 유저의 인터넷 환경에 따라 모듈이 언제 다운로드 될지 모르기에 로딩 처리가 필요할 것입니다.
+
+따라서 무분별하게 적용하지 않고 초기 페이지 로딩 속도와 인터랙션 UX의 트레이드 오프를 고려하여 적용해보시는 것을 추천드립니다.
+
+## 2. React.lazy()
+
+React에서는 `lazy`와 `Suspense`를 사용하여 컴포넌트 레벨에서의 코드 스플리팅을 쉽게 구현할 수 있습니다.
+
+`React.lazy()`는 동적 `import()`를 호출하는 함수를 인자로 받아, 별도의 청크로 분리될 컴포넌트를 반환합니다. 이렇게 분리된 컴포넌트는 모듈 번들러에서 실제로 렌더링될 때만 로드 되도록 번들링됩니다.
+
+```jsx
+const HomePage = React.lazy(() => import('./pages/Home'));
+const AboutPage = React.lazy(() => import('./pages/About'));
+const ContactPage = React.lazy(() => import('./pages/Contact'));
+
+function App() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+      </Routes>
+    </Suspense>
+  );
+}
+```
+
+보편적으로 위와 같이 라우트 기반으로 코드 스플리팅을 적용합니다. 또는 규모가 아주 큰 컴포넌트나 모달과 같은 현재 표시되지 않는 컴포넌트에도 적용할 수 있습니다.
+
+다만 `React.lazy()`를 사용할 때는 몇 가지 주의사항이 있습니다:
+
+- `Suspense` 컴포넌트를 필수로 감싸 `Fallback UI`를 설정하여야 합니다.
+- 서버 사이드 렌더링에서는 `React.lazy()`를 직접 사용할 수 없으며, 대신 [`@loadable/component`](https://www.npmjs.com/package/@loadable/component)와 같은 라이브러리를 사용해야 합니다.
+- 너무 잦은 코드 스플리팅은 오히려 성능을 저하시킬 수 있으므로, 적절한 단위로 분할하는 것이 중요합니다.
+
+자세한 사항은 [공식문서](https://ko.react.dev/reference/react/lazy)에서 확인하실 수 있습니다.
+
+## 3. Next 에서의 코드 스플리팅
+
+Next.js에서는 코드 스플리팅이 기본적으로 적용되어 번들링이 자동으로 이루어집니다. 파일 시스템 기반의 라우팅 방식을 사용하여 각 페이지마다 개별적인 자바스크립트 번들이 생성되고, 사용자가 특정 페이지에 접근할 때 해당 번들만 로드됩니다.
+
+그리고 의존성 모듈의 코드 스플리팅도 기본적으로 수행합니다. 페이지에서 불러오는 모듈들은 각각의 Vendor 자바스크립트 파일로 분할되어 사용하는 페이지에서 로드됩니다.
+
+기본적으로 서버 컴포넌트는 자동으로 코드 스플리팅이 적용되며, [streaming](https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming)을 사용하여 서버에서 클라이언트로 UI 조각을 점진적으로 전송할 수 있습니다.
+
+클라이언트 컴포넌트의 코드 스플리팅을 구성하기 위해서는 `next/dynamic` 을 사용할 수 있습니다.
+
+```jsx
+'use client';
+
+import { useState } from 'react';
+import dynamic from 'next/dynamic';
+
+// Client Components:
+const ComponentA = dynamic(() => import('../components/A'));
+const ComponentB = dynamic(() => import('../components/B'));
+const ComponentC = dynamic(() => import('../components/C'), { ssr: false });
+
+export default function ClientComponentExample() {
+  const [showMore, setShowMore] = useState(false);
+
+  return (
+    <div>
+      {/* Load immediately, but in a separate client bundle */}
+      <ComponentA />
+
+      {/* Load on demand, only when/if the condition is met */}
+      {showMore && <ComponentB />}
+      <button onClick={() => setShowMore(!showMore)}>Toggle</button>
+
+      {/* Load only on the client side */}
+      <ComponentC />
+    </div>
+  );
+}
+```
+
+```jsx
+const WithCustomLoading = dynamic(() => import('../components/WithCustomLoading'), {
+  loading: () => <p>Loading...</p>,
+});
+```
+
+`dynamic()` 함수는 `React.lazy()`와 `Suspense`를 기반으로 구현되어 있습니다. 따라서 `dynamic()`으로 불러온 컴포넌트는 이미 `Suspense`로 감싸져있기 때문에 그대로 쓰면 되고 Fallback UI를 설정하고 싶다면 `dynamic()`함수의 옵션으로 Fallback UI를 설정할 수 있습니다.
+
+# 트리 쉐이킹
+
+> **Tree shaking** 은 JavaScript 컨텍스트에서 불필요한 코드를 제거하는 것을 설명하는 데 일반적으로 사용되는 용어입니다. - [MDN](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking)
