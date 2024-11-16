@@ -16,6 +16,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': 0,
     'react/display-name': 0,
     '@next/next/no-img-element': 0,
+    'prettier/prettier': 'off',
   },
   overrides: [
     {
