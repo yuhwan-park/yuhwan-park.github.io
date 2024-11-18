@@ -1,7 +1,7 @@
 import { defineDocumentType, FieldDefs, makeSource } from 'contentlayer/source-files';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeExternalLinks from 'rehype-external-links';
-import rehypePrism from 'rehype-prism-plus';
+import rehypePrettyCode, { Options } from 'rehype-pretty-code';
 import rehypeSlug from 'rehype-slug';
 import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
@@ -10,6 +10,10 @@ const fields: FieldDefs = {
   title: { type: 'string', required: true },
   date: { type: 'date', required: true },
   draft: { type: 'boolean' },
+};
+
+const options: Options = {
+  theme: 'material-theme-darker',
 };
 
 export const Post = defineDocumentType(() => ({
@@ -32,7 +36,7 @@ export default makeSource({
     remarkPlugins: [remarkGfm, remarkBreaks],
     rehypePlugins: [
       rehypeSlug,
-      rehypePrism as any,
+      [rehypePrettyCode as any, options],
       [
         rehypeAutolinkHeadings,
         {

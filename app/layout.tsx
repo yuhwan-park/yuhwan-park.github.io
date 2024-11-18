@@ -1,7 +1,7 @@
 import './globals.css';
 
 import { Metadata } from 'next';
-import { Nanum_Myeongjo } from 'next/font/google';
+import { JetBrains_Mono, Nanum_Myeongjo } from 'next/font/google';
 import localFont from 'next/font/local';
 
 const nanum = Nanum_Myeongjo({
@@ -15,6 +15,12 @@ const nanum = Nanum_Myeongjo({
 const pretendard = localFont({
   src: './fonts/PretendardVariable.woff2',
   variable: '--font-mono',
+});
+
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-code',
 });
 
 export const metadata: Metadata = {
@@ -42,7 +48,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={`${nanum.variable} ${pretendard.variable}`}>
+    <html
+      lang="ko"
+      className={`${nanum.variable} ${pretendard.variable} ${jetBrainsMono.variable}`}
+    >
       <body className="px-4 transition-all md:px-0">{children}</body>
     </html>
   );
