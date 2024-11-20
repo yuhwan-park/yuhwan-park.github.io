@@ -215,23 +215,23 @@
 .prose mark[data-highlighted-chars] {
   @apply px-1 py-0.5;
   @apply rounded border-b-2 border-teal-500 bg-teal-500 bg-opacity-20;
-  & > span {
-    @apply text-teal-400 !important;
-  }
+}
+.prose mark[data-highlighted-chars] span {
+  @apply text-teal-400 !important;
 }
 .prose mark[data-highlighted-chars][data-chars-id='y'] {
   @apply px-1 py-0.5;
   @apply rounded border-b-2 border-yellow-500 bg-yellow-500 bg-opacity-20;
-  & > span {
-    @apply text-yellow-400 !important;
-  }
+}
+.prose mark[data-highlighted-chars][data-chars-id='y'] span {
+  @apply text-yellow-400 !important;
 }
 .prose mark[data-highlighted-chars][data-chars-id='b'] {
   @apply px-1 py-0.5;
   @apply rounded border-b-2 border-sky-500 bg-sky-500 bg-opacity-20;
-  & > span {
-    @apply text-sky-400 !important;
-  }
+}
+.prose mark[data-highlighted-chars][data-chars-id='b'] span {
+  @apply text-sky-400 !important;
 }
 
 .prose code[data-theme='material-theme-darker'] {
