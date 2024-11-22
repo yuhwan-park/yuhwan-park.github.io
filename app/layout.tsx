@@ -1,5 +1,6 @@
 import './globals.css';
 
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { Metadata } from 'next';
 import { JetBrains_Mono, Nanum_Myeongjo } from 'next/font/google';
 import localFont from 'next/font/local';
@@ -53,6 +54,7 @@ export default function RootLayout({
       className={`${nanum.variable} ${pretendard.variable} ${jetBrainsMono.variable}`}
     >
       <body className="px-4 transition-all md:px-0">{children}</body>
+      <GoogleAnalytics gaId="G-4FD3Q4FV3P" />
     </html>
   );
 }

@@ -19,6 +19,7 @@
     "tailwind-merge": "^2.5.4"
   },
   "devDependencies": {
+    "@next/third-parties": "^15.0.3",
     "@tailwindcss/typography": "^0.5.15",
     "@types/lodash.throttle": "^4.1.9",
     "@types/node": "^20",
